@@ -29,6 +29,14 @@ repo = [Orders(id = 1,
     description = "Перестал заряжаться после поподания в воду",
     client = "Игорь",
     status = "в ожидании",
+    master = "Максим"),
+    Orders(id = 2,
+    dateStart = "2020-02-20",
+    device = "Телефон",
+    problemType = "Окислились контакты",
+    description = "Перестал заряжаться после поподания в воду",
+    client = "Игорь",
+    status = "в ожидании",
     master = "Максим")]
 
 app.add_middleware(
@@ -40,23 +48,15 @@ app.add_middleware(
 )
 
 message = ""
-ifUpdateStatus = False
 
-@app.get("/")
-def get_orders():
+@app.get("/orders")
+def get_orders(param = None):
     global message
-    global ifUpdateStatus
-    if(ifUpdateStatus):
-        buffer = message
-        ifUpdateStatus = False
-        message = ""
-        return {"repo" : repo, "message" : buffer}
-    else:
-        return {"repo" : repo}
-
-@app.get("/search/{id}")
-def search_order(id: int):
-    return [o for o in repo if o.id == id]
+    buffer = message
+    message = ""
+    if(param):
+        return {"repo" : [o for o in repo if o.id == int(param)], "message" : buffer}
+    return {"repo" : repo, "message" : buffer}
 
 @app.post("/")
 def add_order(order: Annotated[Orders, Form()]):
@@ -71,8 +71,7 @@ def update_order(order: Annotated[UpdateOrdersDTO, Form()]):
         if order.id == o.id:
             if o.status != order.status:
                 o.status = order.status
-                message = f"Статус заявки №{o.id} изменен"
-                ifUpdateStatus = True
+                message += f"Статус заявки №{o.id} изменен"
             o.description = order.description
             o.master = order.master
         return {"status-code": 200, "message": "Данные обновлены"}
