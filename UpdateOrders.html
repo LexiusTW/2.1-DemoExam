@@ -5,5 +5,14 @@
 </head>
 <body>
     <h1>Обновление заявки</h1>
+    <form action="http://127.0.0.1:8000/" method="post"></form>
+        <input required name="id" placeholder="Номер заявки">
+        <input required name="description" placeholder="Описание"> 
+        <select name="status" >
+            <option value="в ожидании">В ожидании</option>
+            <option value="в работе">В работе</option>
+            <option value="выполнена">Выполнена</option>
+        </select>
+        <input type="submit" value="Send" />
 </body>
 </html>
