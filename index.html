@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Добавление заявки</title>
+</head>
+<body>
+    <form action="http://127.0.0.1:8000/" method="post">
+        <input required name="number" type="number" placeholder="Номер заявки">
+        <input required name="startDate" type="date" placeholder="Дата добавления">
+        <input required name="orgTechType" placeholder="Оборудование">
+        <input required name="orgTechModel" placeholder="Тип проблемы">
+        <input required name="problemDescryption" placeholder="Описание проблемы">
+        <input required name="FIO" placeholder="Клиент"> 
+        <select name="status" >
+            <option value="в ожидании">В ожидании</option>
+            <option value="в работе">В работе</option>
+            <option value="выполнена">Выполнена</option>
+        </select>
+        <input type="submit" value="Send" />
+    </form>
+</body>
+</html>
