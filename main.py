@@ -28,7 +28,7 @@ def add_order(order: Annotated[Orders, Form()]):
     repo.append(order)
     return {"status-code": 200, "message": "Заявка успешно добавлена"}
 
-@app.put("/")
+@app.post("/")
 def update_order(order: Annotated[UpdateOrdersDTO, Form()]):
     for o in repo:
         if order.id == o.id:
