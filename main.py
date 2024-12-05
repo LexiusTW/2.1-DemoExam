@@ -22,7 +22,14 @@ class UpdateOrdersDTO(BaseModel):
     description: Optional[str] = ""
     master: Optional[str] = ""
 
-repo = []
+repo = [Orders(id = 1,
+    dateStart = "2020-02-20",
+    device = "Телефон",
+    problemType = "Окислились контакты",
+    description = "Перестал заряжаться после поподания в воду",
+    client = "Игорь",
+    status = "в ожидании",
+    master = "Максим")]
 
 app.add_middleware(
     CORSMiddleware,
