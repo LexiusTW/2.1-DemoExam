@@ -2,6 +2,7 @@ from datetime import date
 from typing import Annotated, Literal, Optional
 from fastapi import FastAPI, Form
 from pydantic import BaseModel
+from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
 
@@ -23,6 +24,13 @@ class UpdateOrdersDTO(BaseModel):
 
 repo = []
 
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=["*"],
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 @app.get("/")
 def get_orders():
