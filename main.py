@@ -23,12 +23,17 @@ class UpdateOrdersDTO(BaseModel):
 
 repo = []
 
+
+@app.get("/")
+def get_orders():
+    return repo
+
 @app.post("/")
 def add_order(order: Annotated[Orders, Form()]):
     repo.append(order)
     return {"status-code": 200, "message": "Заявка успешно добавлена"}
 
-@app.post("/")
+@app.post("/update")
 def update_order(order: Annotated[UpdateOrdersDTO, Form()]):
     for o in repo:
         if order.id == o.id:
