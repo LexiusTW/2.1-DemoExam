@@ -4,9 +4,10 @@
     <title>Список заявок</title>
 </head>
 <body>
-    <h1>Список заявок</h1>
     <a href="GetOrders.html">Список заявок</a>
-        <a href="AddOrder.html">Добавление заявки</a>
+    <a href="index.html">Добавление заявки</a>
+    <a href="UpdateOrders.html">Обновление заявки</a>
+    <h1>Список заявок</h1>
     </div>
     <table id="ordersTable" border="1">
         <tr>
@@ -21,15 +22,18 @@
         </tr>
     </table>
     <script>
+        let tableBody = document.getElementById('ordersTable');
+
         fetchOrders();
 
         async function fetchOrders() {
-                let response = await fetch('http://127.0.0.1:8000/', {method: "GET"});
-                let orders = await response.json();
+                let response = await fetch('http://127.0.0.1:8000/').then(data => data.json());
 
-                let tableBody = document.getElementById('ordersTable');
+                if(response.message)
+                    alert(response.message)
 
-                orders.forEach(o => {
+
+                response.repo.forEach(o => {
                     let row = document.createElement('tr');
                     
                     row.innerHTML = `
