@@ -8,26 +8,37 @@
     <a href="index.html">Добавление заявки</a>
     <a href="UpdateOrders.html">Обновление заявки</a>
     <h1>Список заявок</h1>
+    <div>
+        <input placeholder="Номер" id="search"/>
+        <button onclick="GetFilter()">Поиск</button>
     </div>
-    <table id="ordersTable" border="1">
-        <tr>
-            <th>Номер заявки</th>
-            <th>Дата добавления</th>
-            <th>Оборудование</th>
-            <th>Тип проблемы</th>
-            <th>Описание проблемы</th>
-            <th>Клиент</th>
-            <th>Статус</th>
-            <th>Мастер</th>
-        </tr>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Номер заявки</th>
+                <th>Дата добавления</th>
+                <th>Оборудование</th>
+                <th>Тип проблемы</th>
+                <th>Описание проблемы</th>
+                <th>Клиент</th>
+                <th>Статус</th>
+                <th>Мастер</th>
+            </tr>
+        </thead>
+        <tbody id="tbody" border="1">
+        </tbody>
     </table>
     <script>
-        let tableBody = document.getElementById('ordersTable');
+        let tbody = document.getElementById('tbody');
 
         fetchOrders();
 
-        async function fetchOrders() {
-                let response = await fetch('http://127.0.0.1:8000/').then(data => data.json());
+        async function fetchOrders(param = null) {
+
+
+                let response = param ?
+                await fetch(`http://127.0.0.1:8000/orders?param=${param}`).then(data => data.json()) :
+                await fetch('http://127.0.0.1:8000/orders').then(data => data.json())
 
                 if(response.message)
                     alert(response.message)
@@ -46,10 +57,15 @@
                         <td>${o.status}</td>
                         <td>${o.master}</td>
                     `;
-                    tableBody.append(row);
+                    tbody.append(row);
                 });
         }
 
+        function GetFilter(){
+            tbody.innerHTML = ""
+            let param = document.getElementById("search").value;
+            fetchOrders(param)
+            }
     </script>
 </body>
 </html>
