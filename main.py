@@ -36,6 +36,10 @@ app.add_middleware(
 def get_orders():
     return repo
 
+@app.get("/search/{id}")
+def search_order(id: int):
+    return [o for o in repo if o.id == id]
+
 @app.post("/")
 def add_order(order: Annotated[Orders, Form()]):
     repo.append(order)
