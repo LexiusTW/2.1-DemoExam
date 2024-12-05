@@ -13,3 +13,5 @@ class Orders(BaseModel):
     description: str
     client: str
     status: Literal["в ожидании", "в работе", "выполнено"] = "в ожидании"
+
+    repo = []
