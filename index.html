@@ -5,13 +5,14 @@
     <title>Добавление заявки</title>
 </head>
 <body>
+    <h1>Добавление заявки</h1>
     <form action="http://127.0.0.1:8000/" method="post">
-        <input required name="number" type="number" placeholder="Номер заявки">
-        <input required name="startDate" type="date" placeholder="Дата добавления">
-        <input required name="orgTechType" placeholder="Оборудование">
-        <input required name="orgTechModel" placeholder="Тип проблемы">
-        <input required name="problemDescryption" placeholder="Описание проблемы">
-        <input required name="FIO" placeholder="Клиент"> 
+        <input required name="id" type="number" placeholder="Номер заявки">
+        <input required name="dateStart" type="date" placeholder="Дата добавления">
+        <input required name="device" placeholder="Оборудование">
+        <input required name="problemType" placeholder="Тип проблемы">
+        <input required name="description" placeholder="Описание проблемы">
+        <input required name="client" placeholder="Клиент"> 
         <select name="status" >
             <option value="в ожидании">В ожидании</option>
             <option value="в работе">В работе</option>
