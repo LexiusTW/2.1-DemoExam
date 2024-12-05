@@ -39,8 +39,16 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+message = ""
+ifUpdateStatus = False
+
 @app.get("/")
 def get_orders():
+    if ifUpdateStatus == True:
+        buffer = message
+        message = ""
+        ifUpdateStatus = False
+        return repo, buffer
     return repo
 
 @app.get("/search/{id}")
@@ -54,9 +62,14 @@ def add_order(order: Annotated[Orders, Form()]):
 
 @app.post("/update")
 def update_order(order: Annotated[UpdateOrdersDTO, Form()]):
+    global message
+    global ifUpdateStatus
     for o in repo:
         if order.id == o.id:
-            o.status = order.status
+            if o.status != order.status:
+                o.status = order.status
+                message = f"Статус заявки №{o.id} изменен"
+                ifUpdateStatus = True
             o.description = order.description
             o.master = order.master
         return {"status-code": 200, "message": "Данные обновлены"}
