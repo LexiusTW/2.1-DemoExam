@@ -1,6 +1,6 @@
 from datetime import date
-from typing import Literal
-from fastapi import FastAPI
+from typing import Annotated, Literal
+from fastapi import FastAPI, Form
 from pydantic import BaseModel
 
 app = FastAPI()
@@ -14,4 +14,9 @@ class Orders(BaseModel):
     client: str
     status: Literal["в ожидании", "в работе", "выполнено"] = "в ожидании"
 
-    repo = []
+repo = []
+
+@app.post("/")
+def add_order(order: Annotated[Orders, Form()]):
+    repo.append(order)
+    return {"status-code": 200, "message": "Заявка успешно добавлена"}
