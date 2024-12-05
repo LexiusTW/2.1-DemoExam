@@ -35,10 +35,8 @@
 
         async function fetchOrders(param = null) {
 
-
-                let response = param ?
-                await fetch(`http://127.0.0.1:8000/orders?param=${param}`).then(data => data.json()) :
-                await fetch('http://127.0.0.1:8000/orders').then(data => data.json())
+                let uri = param ? `http://127.0.0.1:8000/orders?param=${param}` : 'http://127.0.0.1:8000/orders'
+                let response =  await fetch(uri).then(data => data.json())
 
                 if(response.message)
                     alert(response.message)
