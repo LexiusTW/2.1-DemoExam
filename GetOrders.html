@@ -5,5 +5,47 @@
 </head>
 <body>
     <h1>Список заявок</h1>
+    <a href="GetOrders.html">Список заявок</a>
+        <a href="AddOrder.html">Добавление заявки</a>
+    </div>
+    <table id="ordersTable" border="1">
+        <tr>
+            <th>Номер заявки</th>
+            <th>Дата добавления</th>
+            <th>Оборудование</th>
+            <th>Тип проблемы</th>
+            <th>Описание проблемы</th>
+            <th>Клиент</th>
+            <th>Статус</th>
+            <th>Мастер</th>
+        </tr>
+    </table>
+    <script>
+        fetchOrders();
+
+        async function fetchOrders() {
+                let response = await fetch('http://127.0.0.1:8000/', {method: "GET"});
+                let orders = await response.json();
+
+                let tableBody = document.getElementById('ordersTable');
+
+                orders.forEach(o => {
+                    let row = document.createElement('tr');
+                    
+                    row.innerHTML = `
+                        <td>${o.id}</td>
+                        <td>${o.dateStart}</td>
+                        <td>${o.device}</td>
+                        <td>${o.problemType}</td>
+                        <td>${o.description}</td>
+                        <td>${o.client}</td>
+                        <td>${o.status}</td>
+                        <td>${o.master}</td>
+                    `;
+                    tableBody.append(row);
+                });
+        }
+
+    </script>
 </body>
 </html>
