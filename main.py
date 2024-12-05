@@ -40,16 +40,11 @@ app.add_middleware(
 )
 
 message = ""
-ifUpdateStatus = False
 
 @app.get("/")
 def get_orders():
-    if ifUpdateStatus == True:
-        buffer = message
-        message = ""
-        ifUpdateStatus = False
-        return repo, buffer
-    return repo
+    global message
+    return {"repo" : repo, "message" : message}
 
 @app.get("/search/{id}")
 def search_order(id: int):
