@@ -71,7 +71,9 @@ def update_order(order: Annotated[UpdateOrdersDTO, Form()]):
         if order.id == o.id:
             if o.status != order.status:
                 o.status = order.status
-                message += f"Статус заявки №{o.id} изменен"
+                message += f"Статус заявки №{o.id} изменен\n"
+                if o.status == "выполнена":
+                    message += f"Заявка №{o.id} завершена\n"
             o.description = order.description
             o.master = order.master
         return {"status-code": 200, "message": "Данные обновлены"}
