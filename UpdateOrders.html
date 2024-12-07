@@ -9,14 +9,15 @@
     <a href="UpdateOrders.html">Обновление заявки</a>
     <h1>Обновление заявки</h1>
     <form action="http://127.0.0.1:8000/update" method="post">
-        <input required name="id" placeholder="Номер заявки">
-        <input required name="description" placeholder="Описание"> 
+        <input name="id" placeholder="Номер заявки">
+        <input name="description" placeholder="Описание"> 
         <select name="status" >
             <option value="в ожидании">В ожидании</option>
             <option value="в работе">В работе</option>
             <option value="выполнена">Выполнена</option>
         </select>
-        <input required name="master" placeholder="Мастер"> 
+        <input name="master" placeholder="Мастер">
+        <input name="comment" placeholder="Коментарий">
         <input type="submit" value="Send"/>
     </form>
 </body>

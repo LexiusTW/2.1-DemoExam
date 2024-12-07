@@ -15,12 +15,14 @@ class Orders(BaseModel):
     client: str
     status: Literal["в ожидании", "в работе", "выполнено"] = "в ожидании"
     master: Optional[str] = ""
+    comments: Optional[list] = []
 
 class UpdateOrdersDTO(BaseModel):
     id: int
     status: Optional[str] = ""
     description: Optional[str] = ""
     master: Optional[str] = ""
+    comment: Optional[str] = ""
 
 repo = [Orders(id = 1,
     dateStart = "2020-02-20",
@@ -66,7 +68,6 @@ def add_order(order: Annotated[Orders, Form()]):
 @app.post("/update")
 def update_order(order: Annotated[UpdateOrdersDTO, Form()]):
     global message
-    global ifUpdateStatus
     for o in repo:
         if order.id == o.id:
             if o.status != order.status:
@@ -74,6 +75,7 @@ def update_order(order: Annotated[UpdateOrdersDTO, Form()]):
                 message += f"Статус заявки №{o.id} изменен\n"
                 if o.status == "выполнена":
                     message += f"Заявка №{o.id} завершена\n"
+            o.comments.append(order.comment)
             o.description = order.description
             o.master = order.master
         return {"status-code": 200, "message": "Данные обновлены"}
