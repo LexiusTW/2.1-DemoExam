@@ -79,3 +79,6 @@ def update_order(order: Annotated[UpdateOrdersDTO, Form()]):
             o.description = order.description
             o.master = order.master
         return {"status-code": 200, "message": "Данные обновлены"}
+    
+def count_complete():
+    return [o for o in repo if o.status == "выполнена"].count
