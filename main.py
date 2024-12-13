@@ -99,3 +99,9 @@ def avg_time():
     if count_complete() != 0: 
         return sum(times)/ count_complete()
     return 0
+
+@app.get("/statistic")
+def get_stat():
+    return {"count_complete" : count_complete(),
+            "problem_type" : problem_type(),
+            "avg_time" : avg_time()}
