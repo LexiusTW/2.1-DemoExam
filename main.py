@@ -9,6 +9,7 @@ app = FastAPI()
 class Orders(BaseModel):
     id: int
     dateStart: date
+    endDate: Optional[date] = ""
     device: str
     problemType: str
     description: str
@@ -75,6 +76,7 @@ def update_order(order: Annotated[UpdateOrdersDTO, Form()]):
                 message += f"Статус заявки №{o.id} изменен\n"
                 if o.status == "выполнена":
                     message += f"Заявка №{o.id} завершена\n"
+                    o.endDate = date.today()
             o.comments.append(order.comment)
             o.description = order.description
             o.master = order.master
@@ -91,3 +93,9 @@ def problem_type():
         else:
             dict[o.problemType] = 1
     return dict
+
+def avg_time():
+    times = [o.endDate - o.dateStart for o in repo if o.status == "выполнена"]
+    if count_complete() != 0: 
+        return sum(times)/ count_complete()
+    return 0
