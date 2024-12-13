@@ -81,4 +81,13 @@ def update_order(order: Annotated[UpdateOrdersDTO, Form()]):
         return {"status-code": 200, "message": "Данные обновлены"}
     
 def count_complete():
-    return [o for o in repo if o.status == "выполнена"].count
+    return len([o for o in repo if o.status == "выполнена"])
+
+def problem_type():
+    dict = {}
+    for o in repo:
+        if o.problemType in dict.keys():
+            dict[o.problemType] += 1
+        else:
+            dict[o.problemType] = 1
+    return dict
