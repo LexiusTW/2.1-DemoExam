@@ -9,7 +9,7 @@ app = FastAPI()
 class Orders(BaseModel):
     id: int
     dateStart: date
-    endDate: Optional[date] = ""
+    endDate: Optional[date] = None
     device: str
     problemType: str
     description: str
@@ -74,7 +74,7 @@ def update_order(order: Annotated[UpdateOrdersDTO, Form()]):
             if o.status != order.status:
                 o.status = order.status
                 message += f"Статус заявки №{o.id} изменен\n"
-                if o.status == "выполнена":
+                if order.status == "выполнена":
                     message += f"Заявка №{o.id} завершена\n"
                     o.endDate = date.today()
             o.comments.append(order.comment)
@@ -82,8 +82,11 @@ def update_order(order: Annotated[UpdateOrdersDTO, Form()]):
             o.master = order.master
         return {"status-code": 200, "message": "Данные обновлены"}
     
+def complete_orders():
+    return [o for o in repo if o.status == "выполнена"]
+
 def count_complete():
-    return len([o for o in repo if o.status == "выполнена"])
+    return len(complete_orders())
 
 def problem_type():
     dict = {}
@@ -95,10 +98,13 @@ def problem_type():
     return dict
 
 def avg_time():
-    times = [o.endDate - o.dateStart for o in repo if o.status == "выполнена"]
-    if count_complete() != 0: 
-        return sum(times)/ count_complete()
-    return 0
+    times = []
+    for ord in complete_orders():
+        times.append(ord.endDate - ord.startDate)
+    timesum = sum([t.days for t in times])
+    ordCount = count_complete()
+    result = timesum/ordCount
+    return result
 
 @app.get("/statistic")
 def get_stat():
