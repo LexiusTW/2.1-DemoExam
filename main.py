@@ -100,14 +100,17 @@ def problem_type():
 def avg_time():
     times = []
     for ord in complete_orders():
-        times.append(ord.endDate - ord.startDate)
+        times.append(ord.endDate - ord.dateStart)
     timesum = sum([t.days for t in times])
     ordCount = count_complete()
-    result = timesum/ordCount
+    if ordCount != 0:
+        result = timesum/ordCount
+    else:
+        result = 0
     return result
 
 @app.get("/statistic")
 def get_stat():
     return {"count_complete" : count_complete(),
             "problem_type" : problem_type(),
-            "avg_time" : avg_time()}
+            "avg_days" : avg_time()}
